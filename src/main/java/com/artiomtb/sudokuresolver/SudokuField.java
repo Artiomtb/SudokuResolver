@@ -97,7 +97,7 @@ public class SudokuField {
                 }
             }
         } catch (IncorrectSudokuFieldLineNumberException e) {
-            LOG.error("Exception while checking v=field validity", e);
+            LOG.error("Exception while checking field validity", e);
         }
         return result;
     }
