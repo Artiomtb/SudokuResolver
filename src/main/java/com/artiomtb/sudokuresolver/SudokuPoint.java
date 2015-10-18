@@ -90,7 +90,13 @@ public class SudokuPoint implements Cloneable {
     }
 
     @Override
-    public SudokuPoint clone() throws CloneNotSupportedException {
-        return (SudokuPoint) super.clone();
+    public SudokuPoint clone() {
+        SudokuPoint clonedResult = null;
+        try {
+            clonedResult = new SudokuPoint(posX, posY, value);
+        } catch (IncorrectSudokuPointException e) {
+            LOG.error("Exception while cloning " + this, e);
+        }
+        return clonedResult;
     }
 }

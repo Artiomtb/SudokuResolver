@@ -86,8 +86,7 @@ public class SudokuPointTest {
                 SudokuPoint point2 = sudokuPoints[j];
                 assertNotEquals(point1, point2);
             }
-            SudokuPoint point2 = new SudokuPoint(point1.getPosX(), point1.getPosY(), point1.getValue());
-            assertEquals(point1, point2);
+            assertEquals(point1, point1.clone());
         }
     }
 
