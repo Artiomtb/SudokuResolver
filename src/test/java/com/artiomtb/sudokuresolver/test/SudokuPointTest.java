@@ -14,7 +14,7 @@ public class SudokuPointTest {
 
     private final int correctPosX[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     private final int correctPosY[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    private final int correctValue[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    private final int correctValue[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     @Test
     public void createCorrectPointTest() throws IncorrectSudokuPointException {
@@ -132,7 +132,7 @@ public class SudokuPointTest {
 
     @Test(expected = IncorrectSudokuPointException.class)
     public void createIncorrectValuePointLessBorder() throws IncorrectSudokuPointException {
-        new SudokuPoint(5, 5, 0);
+        new SudokuPoint(5, 5, -1);
     }
 
     @Test(expected = IncorrectSudokuPointException.class)

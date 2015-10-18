@@ -13,7 +13,7 @@ public class SudokuPoint implements Cloneable {
     private static final int MIN_POSITION_Y = 1;
     private static final int MAX_POSITION_X = 9;
     private static final int MAX_POSITION_Y = 9;
-    private static final int MIN_VALUE = 1;
+    private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 9;
 
     private static final Logger LOG = Logger.getLogger(SudokuPoint.class);
