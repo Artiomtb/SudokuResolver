@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            SudokuPoint point = new SudokuPoint(5, 5, 5);
-            LOG.info("Created: " + point);
+            SudokuField field = new SudokuField();
+            LOG.info(field.checkFieldValidity());
         } catch (IncorrectSudokuPointException e) {
             LOG.error(e.getMessage(), e);
         }

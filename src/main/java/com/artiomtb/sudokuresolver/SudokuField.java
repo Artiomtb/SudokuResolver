@@ -64,9 +64,9 @@ public class SudokuField {
         int x;
         int y;
         int mod = squareNum % 3;
-        if(mod == 0) {
+        if (mod == 0) {
             x = 6;
-        } else if (mod ==1) {
+        } else if (mod == 1) {
             x = 0;
         } else {
             x = 3;
@@ -87,12 +87,27 @@ public class SudokuField {
         return checkArrayToUnique(line);
     }
 
+    public boolean checkFieldValidity() {
+        boolean result = true;
+        try {
+            for (int i = 1; i <= 9; i++) {
+                if (!checkVerticalLine(i) || !checkHorizontalLine(i) || !checkSquare(i)) {
+                    result = false;
+                    break;
+                }
+            }
+        } catch (IncorrectSudokuFieldLineNumberException e) {
+            LOG.error("Exception while checking v=field validity", e);
+        }
+        return result;
+    }
+
     private boolean checkArrayToUnique(SudokuPoint[] array) {
         StringBuilder sb = new StringBuilder();
         for (SudokuPoint point : array) {
             sb.append(point.getValue() + " ");
         }
-        LOG.info("Checking array: " + sb.toString());
+        LOG.debug("Checking array: " + sb.toString());
         boolean isArrayUnique = true;
         BitSet bits = new BitSet(9);
         for (int i = 0; i < 9; i++) {
