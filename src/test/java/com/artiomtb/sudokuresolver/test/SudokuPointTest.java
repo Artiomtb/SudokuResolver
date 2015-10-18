@@ -57,6 +57,13 @@ public class SudokuPointTest {
     }
 
     @Test
+    public void cloneTest() throws IncorrectSudokuPointException, CloneNotSupportedException {
+        SudokuPoint point = new SudokuPoint(1,1,1);
+        SudokuPoint clonedPoint = point.clone();
+        assertEquals(point, clonedPoint);
+    }
+
+    @Test
     public void equalsTest() throws IncorrectSudokuPointException {
         List<SudokuPoint> allAvailablePoints = new ArrayList<>();
         for (int currentPosX : correctPosX) {

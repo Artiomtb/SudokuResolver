@@ -3,7 +3,7 @@ package com.artiomtb.sudokuresolver;
 import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
 import org.apache.log4j.Logger;
 
-public class SudokuPoint {
+public class SudokuPoint implements Cloneable {
 
     private int posX;
     private int posY;
@@ -88,5 +88,10 @@ public class SudokuPoint {
         result = 31 * result + posY;
         result = 31 * result + value;
         return result;
+    }
+
+    @Override
+    public SudokuPoint clone() throws CloneNotSupportedException {
+        return (SudokuPoint) super.clone();
     }
 }
