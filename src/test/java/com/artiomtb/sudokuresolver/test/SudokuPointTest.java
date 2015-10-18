@@ -7,7 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class SudokuPointTest {
 
@@ -58,7 +59,7 @@ public class SudokuPointTest {
 
     @Test
     public void cloneTest() throws IncorrectSudokuPointException, CloneNotSupportedException {
-        SudokuPoint point = new SudokuPoint(1,1,1);
+        SudokuPoint point = new SudokuPoint(1, 1, 1);
         SudokuPoint clonedPoint = point.clone();
         assertEquals(point, clonedPoint);
     }
@@ -79,17 +80,14 @@ public class SudokuPointTest {
             SudokuPoint point1 = sudokuPoints[i];
             for (int j = 0; j < i; j++) {
                 SudokuPoint point2 = sudokuPoints[j];
-                assertFalse(point1.equals(point2));
-                assertFalse(point2.equals(point1));
+                assertNotEquals(point1, point2);
             }
             for (int j = i + 1; j < size; j++) {
                 SudokuPoint point2 = sudokuPoints[j];
-                assertFalse(point1.equals(point2));
-                assertFalse(point2.equals(point1));
+                assertNotEquals(point1, point2);
             }
             SudokuPoint point2 = new SudokuPoint(point1.getPosX(), point1.getPosY(), point1.getValue());
-            assertTrue(point1.equals(point2));
-            assertTrue(point2.equals(point1));
+            assertEquals(point1, point2);
         }
     }
 

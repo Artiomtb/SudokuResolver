@@ -79,7 +79,6 @@ public class SudokuPoint implements Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
         SudokuPoint anotherPoint = (SudokuPoint) o;
         return posX == anotherPoint.posX && posY == anotherPoint.posY && value == anotherPoint.value;
-
     }
 
     @Override
