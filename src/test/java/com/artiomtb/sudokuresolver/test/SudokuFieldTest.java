@@ -35,7 +35,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void createEmptySudokuField() throws IncorrectSudokuPointException {
+    public void createEmptySudokuField() {
         for (int y = 1; y <= 9; y++) {
             for (int x = 1; x <= 9; x++) {
                 SudokuPoint point = sudokuEmptyField.getPoint(x, y);
@@ -47,7 +47,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void createNonEmptySudokuField() throws IncorrectSudokuPointException {
+    public void createNonEmptySudokuField() {
         for (int currentX : correctPosX) {
             for (int currentY : correctPosY) {
                 int value = Math.max(currentX, currentY);

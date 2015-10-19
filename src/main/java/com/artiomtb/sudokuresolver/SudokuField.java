@@ -14,7 +14,7 @@ public class SudokuField {
 
     private static final Logger LOG = Logger.getLogger(SudokuField.class);
 
-    public SudokuField() throws IncorrectSudokuPointException {
+    public SudokuField() {
         this.field = getEmptyField();
         LOG.debug("Created: " + toString());
     }
@@ -27,12 +27,16 @@ public class SudokuField {
         LOG.debug("Created: " + toString());
     }
 
-    private SudokuPoint[][] getEmptyField() throws IncorrectSudokuPointException {
+    private SudokuPoint[][] getEmptyField() {
         SudokuPoint[][] emptyField = new SudokuPoint[9][9];
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                emptyField[x][y] = new SudokuPoint(x + 1, y + 1, 0);
+        try {
+            for (int y = 0; y < 9; y++) {
+                for (int x = 0; x < 9; x++) {
+                    emptyField[x][y] = new SudokuPoint(x + 1, y + 1, 0);
+                }
             }
+        } catch (IncorrectSudokuPointException e) {
+            LOG.error("Exception while creating an empty Sudoku field");
         }
         return emptyField;
     }
@@ -60,14 +64,20 @@ public class SudokuField {
     }
 
     public boolean checkVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+        if (lineNum < 1 || lineNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
         return checkArrayToUnique(getPointsByVerticalLine(lineNum));
     }
 
     public boolean checkHorizontalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+        if (lineNum < 1 || lineNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
         return checkArrayToUnique(getPointsByHorizontalLine(lineNum));
     }
 
     public boolean checkSquare(int squareNum) throws IncorrectSudokuFieldLineNumberException {
+        if (squareNum < 1 || squareNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
         return checkArrayToUnique(getPointsBySquareNum(squareNum));
     }
 
@@ -126,15 +136,11 @@ public class SudokuField {
         return squareNum;
     }
 
-    private SudokuPoint[] getPointsByVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+    private SudokuPoint[] getPointsByVerticalLine(int lineNum) {
         return this.field[lineNum - 1];
     }
 
-    private SudokuPoint[] getPointsByHorizontalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+    private SudokuPoint[] getPointsByHorizontalLine(int lineNum) {
         SudokuPoint[] line = new SudokuPoint[9];
         for (int i = 0; i < 9; i++) {
             line[i] = field[i][lineNum - 1];
@@ -142,9 +148,7 @@ public class SudokuField {
         return line;
     }
 
-    private SudokuPoint[] getPointsBySquareNum(int squareNum) throws IncorrectSudokuFieldLineNumberException {
-        if (squareNum < 1 || squareNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
+    private SudokuPoint[] getPointsBySquareNum(int squareNum) {
         SudokuPoint[] line = new SudokuPoint[9];
         int x;
         int y;
@@ -173,6 +177,12 @@ public class SudokuField {
     }
 
     public List<Integer> getAvailableValuesForPoint(int posX, int posY) throws IncorrectSudokuFieldLineNumberException {
+        if (posX < 1 || posX > 9) {
+            throw new IncorrectSudokuFieldLineNumberException("X position value should be in range [1,9] (now " + posX + ")");
+        }
+        if (posY < 1 || posY > 9) {
+            throw new IncorrectSudokuFieldLineNumberException("Y position value should be in range [1,9] (now " + posY + ")");
+        }
         List<Integer> nonAvailableValuesVertical = getNonAvailableValuesForVertical(posX);
         List<Integer> nonAvailableValuesHorizontal = getNonAvailableValuesForHorizontal(posY);
         List<Integer> nonAvailableValuesSquare = getNonAvailableValuesForSquare(getSquareByPos(posX, posY));
@@ -216,15 +226,15 @@ public class SudokuField {
         return emptyPoints;
     }
 
-    private List<Integer> getNonAvailableValuesForVertical(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+    private List<Integer> getNonAvailableValuesForVertical(int lineNum) {
         return getNonAvailableValuesForArray(getPointsByVerticalLine(lineNum));
     }
 
-    private List<Integer> getNonAvailableValuesForHorizontal(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+    private List<Integer> getNonAvailableValuesForHorizontal(int lineNum) {
         return getNonAvailableValuesForArray(getPointsByHorizontalLine(lineNum));
     }
 
-    private List<Integer> getNonAvailableValuesForSquare(int squareNum) throws IncorrectSudokuFieldLineNumberException {
+    private List<Integer> getNonAvailableValuesForSquare(int squareNum) {
         return getNonAvailableValuesForArray(getPointsBySquareNum(squareNum));
     }
 
