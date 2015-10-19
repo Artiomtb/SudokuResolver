@@ -56,50 +56,15 @@ public class SudokuField {
     }
 
     public boolean checkVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
-        SudokuPoint[] line = this.field[lineNum - 1];
-        return checkArrayToUnique(line);
+        return checkArrayToUnique(getPointsByVerticalLine(lineNum));
     }
 
     public boolean checkHorizontalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
-        SudokuPoint[] line = new SudokuPoint[9];
-        for (int i = 0; i < 9; i++) {
-            line[i] = field[i][lineNum - 1];
-        }
-        return checkArrayToUnique(line);
+        return checkArrayToUnique(getPointsByHorizontalLine(lineNum));
     }
 
     public boolean checkSquare(int squareNum) throws IncorrectSudokuFieldLineNumberException {
-        if (squareNum < 1 || squareNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
-        SudokuPoint[] line = new SudokuPoint[9];
-        int x;
-        int y;
-        int mod = squareNum % 3;
-        if (mod == 0) {
-            x = 6;
-        } else if (mod == 1) {
-            x = 0;
-        } else {
-            x = 3;
-        }
-        if (squareNum <= 3) {
-            y = 0;
-        } else if (squareNum <= 6) {
-            y = 3;
-        } else {
-            y = 6;
-        }
-        int lineIndex = 0;
-        for (int i = y; i < y + 3; i++) {
-            for (int j = x; j < x + 3; j++) {
-                line[lineIndex++] = field[j][i];
-            }
-        }
-        return checkArrayToUnique(line);
+        return checkArrayToUnique(getPointsBySquareNum(squareNum));
     }
 
     public boolean checkFieldValidity() {
@@ -157,6 +122,52 @@ public class SudokuField {
         return squareNum;
     }
 
+    private SudokuPoint[] getPointsByVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+        if (lineNum < 1 || lineNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+        return this.field[lineNum - 1];
+    }
+
+    private SudokuPoint[] getPointsByHorizontalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+        if (lineNum < 1 || lineNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+        SudokuPoint[] line = new SudokuPoint[9];
+        for (int i = 0; i < 9; i++) {
+            line[i] = field[i][lineNum - 1];
+        }
+        return line;
+    }
+
+    private SudokuPoint[] getPointsBySquareNum(int squareNum) throws IncorrectSudokuFieldLineNumberException {
+        if (squareNum < 1 || squareNum > 9)
+            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
+        SudokuPoint[] line = new SudokuPoint[9];
+        int x;
+        int y;
+        int mod = squareNum % 3;
+        if (mod == 0) {
+            x = 6;
+        } else if (mod == 1) {
+            x = 0;
+        } else {
+            x = 3;
+        }
+        if (squareNum <= 3) {
+            y = 0;
+        } else if (squareNum <= 6) {
+            y = 3;
+        } else {
+            y = 6;
+        }
+        int lineIndex = 0;
+        for (int i = y; i < y + 3; i++) {
+            for (int j = x; j < x + 3; j++) {
+                line[lineIndex++] = field[j][i];
+            }
+        }
+        return line;
+    }
+
     public List<Integer> getAvailableValuesForPoint(int posX, int posY) throws IncorrectSudokuFieldLineNumberException {
         List<Integer> nonAvailableValuesVertical = getNonAvailableValuesForVertical(posX);
         List<Integer> nonAvailableValuesHorizontal = getNonAvailableValuesForHorizontal(posY);
@@ -189,50 +200,15 @@ public class SudokuField {
     }
 
     private List<Integer> getNonAvailableValuesForVertical(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
-        SudokuPoint[] line = this.field[lineNum - 1];
-        return getNonAvailableValuesForArray(line);
+        return getNonAvailableValuesForArray(getPointsByVerticalLine(lineNum));
     }
 
     private List<Integer> getNonAvailableValuesForHorizontal(int lineNum) throws IncorrectSudokuFieldLineNumberException {
-        if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
-        SudokuPoint[] line = new SudokuPoint[9];
-        for (int i = 0; i < 9; i++) {
-            line[i] = field[i][lineNum - 1];
-        }
-        return getNonAvailableValuesForArray(line);
+        return getNonAvailableValuesForArray(getPointsByHorizontalLine(lineNum));
     }
 
     private List<Integer> getNonAvailableValuesForSquare(int squareNum) throws IncorrectSudokuFieldLineNumberException {
-        if (squareNum < 1 || squareNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
-        SudokuPoint[] line = new SudokuPoint[9];
-        int x;
-        int y;
-        int mod = squareNum % 3;
-        if (mod == 0) {
-            x = 6;
-        } else if (mod == 1) {
-            x = 0;
-        } else {
-            x = 3;
-        }
-        if (squareNum <= 3) {
-            y = 0;
-        } else if (squareNum <= 6) {
-            y = 3;
-        } else {
-            y = 6;
-        }
-        int lineIndex = 0;
-        for (int i = y; i < y + 3; i++) {
-            for (int j = x; j < x + 3; j++) {
-                line[lineIndex++] = field[j][i];
-            }
-        }
-        return getNonAvailableValuesForArray(line);
+        return getNonAvailableValuesForArray(getPointsBySquareNum(squareNum));
     }
 
     private List<Integer> getNonAvailableValuesForArray(SudokuPoint[] array) {
