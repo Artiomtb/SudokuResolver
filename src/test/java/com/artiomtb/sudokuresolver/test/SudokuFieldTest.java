@@ -74,7 +74,6 @@ public class SudokuFieldTest {
                 sudokuNonEmptyField.setPoint(currentX, currentY, value);
                 assertEquals(point, sudokuEmptyField.getPoint(currentX, currentY));
                 assertEquals(point, sudokuNonEmptyField.getPoint(currentX, currentY));
-
             }
         }
     }
@@ -183,8 +182,7 @@ public class SudokuFieldTest {
             field.setPoint(new SudokuPoint(posX, posY, value));
             Integer[] tempExpectedArray = new Integer[expectedArray.length - 1];
             int tempExpectedArrayCount = 0;
-            for (int j = 0; j < expectedArray.length; j++) {
-                Integer currentValue = expectedArray[j];
+            for (Integer currentValue : expectedArray) {
                 if (!currentValue.equals(value)) {
                     tempExpectedArray[tempExpectedArrayCount++] = currentValue;
                 }
