@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -98,6 +99,47 @@ public class SudokuFieldTest {
         field.setPoint(new SudokuPoint(3, 3, 2));
         field.setPoint(new SudokuPoint(3, 5, 1));
         assertTrue(field.checkFieldValidity());
+    }
+
+    @Test
+    public void getAllEmptySudokoPointsTest() throws IncorrectSudokuPointException {
+        SudokuField field = new SudokuField();
+        List<SudokuPoint> emptyPointsList;
+        List<SudokuPoint> expectedPointsList = new ArrayList<>();
+        for (int currentX : correctPosX) {
+            for (int currentY : correctPosY) {
+                expectedPointsList.add(new SudokuPoint(currentX, currentY, 0));
+            }
+        }
+        emptyPointsList = field.getAllEmptySudokuPoints();
+        SudokuPoint[] emptyPoints = emptyPointsList.toArray(new SudokuPoint[emptyPointsList.size()]);
+        SudokuPoint[] expectedPoints = expectedPointsList.toArray(new SudokuPoint[expectedPointsList.size()]);
+        assertArrayEquals(expectedPoints, emptyPoints);
+        Iterator<SudokuPoint> iter = expectedPointsList.iterator();
+        while (iter.hasNext()) {
+            SudokuPoint point = iter.next();
+            iter.remove();
+            expectedPoints = expectedPointsList.toArray(new SudokuPoint[expectedPointsList.size()]);
+            for (int currentValue = 1; currentValue <= 9; currentValue++) {
+                int posX = point.getPosX();
+                int posY = point.getPosY();
+                field.setPoint(posX, posY, currentValue);
+                emptyPointsList = field.getAllEmptySudokuPoints();
+                emptyPoints = emptyPointsList.toArray(new SudokuPoint[emptyPointsList.size()]);
+                assertArrayEquals(expectedPoints, emptyPoints);
+            }
+        }
+        expectedPointsList = new ArrayList<>();
+        for (int currentX : correctPosX) {
+            for (int currentY : correctPosY) {
+                field.setPoint(currentX, currentY, 0);
+                expectedPointsList.add(new SudokuPoint(currentX, currentY, 0));
+                emptyPointsList = field.getAllEmptySudokuPoints();
+                emptyPoints = emptyPointsList.toArray(new SudokuPoint[emptyPointsList.size()]);
+                expectedPoints = expectedPointsList.toArray(new SudokuPoint[expectedPointsList.size()]);
+                assertArrayEquals(expectedPoints, emptyPoints);
+            }
+        }
     }
 
     @Test
