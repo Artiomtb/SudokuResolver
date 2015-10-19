@@ -55,6 +55,10 @@ public class SudokuField {
         return sb.toString();
     }
 
+    public SudokuPoint getPoint(int posX, int posY) {
+        return this.field[posX - 1][posY - 1];
+    }
+
     public boolean checkVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
         return checkArrayToUnique(getPointsByVerticalLine(lineNum));
     }
