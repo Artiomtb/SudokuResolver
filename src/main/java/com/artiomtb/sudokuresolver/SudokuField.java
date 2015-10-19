@@ -19,7 +19,7 @@ public class SudokuField {
         LOG.debug("Created: " + toString());
     }
 
-    public SudokuField(Iterable<SudokuPoint> points) throws IncorrectSudokuPointException {
+    public SudokuField(Iterable<SudokuPoint> points) {
         this.field = getEmptyField();
         for (SudokuPoint point : points) {
             this.field[point.getPosX() - 1][point.getPosY() - 1] = point;
