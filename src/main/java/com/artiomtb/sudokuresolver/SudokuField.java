@@ -19,6 +19,24 @@ public class SudokuField {
         LOG.debug("Created: " + toString());
     }
 
+    public SudokuField(int[][] coordsValues) throws IncorrectSudokuPointException {
+        int arrayVerticalLength = coordsValues.length;
+        if (arrayVerticalLength != 9) {
+            throw new IncorrectSudokuPointException("Vertical size of field array should be equals to 9 (now " +
+                    arrayVerticalLength + ")");
+        }
+        for (int currentY = 0; currentY < 9; currentY++) {
+            int currentArrayHorizontalLength = coordsValues[currentY].length;
+            if (currentArrayHorizontalLength != 9) {
+                throw new IncorrectSudokuPointException("Horizontal size of field array should be equals to 9 (now " +
+                        currentArrayHorizontalLength + " on y = " + (currentY + 1) + ")");
+            }
+            for (int currentX = 0; currentX < 9; currentX++) {
+                setPoint(currentX + 1, currentY + 1, coordsValues[currentY][currentX]);
+            }
+        }
+    }
+
     public SudokuField(Iterable<SudokuPoint> points) {
         this.field = getEmptyField();
         for (SudokuPoint point : points) {
