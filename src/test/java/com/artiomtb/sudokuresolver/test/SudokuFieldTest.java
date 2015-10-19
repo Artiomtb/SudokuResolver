@@ -20,6 +20,18 @@ public class SudokuFieldTest {
 
     private SudokuField sudokuEmptyField;
     private SudokuField sudokuNonEmptyField;
+    private SudokuField sudokuNonEmptyArrayField;
+    private int[][] correctSudokuArray = new int[][]{
+            {1, 2, 3, 4, 5, 6, 7, 8, 9},
+            {4, 5, 6, 7, 8, 9, 1, 2, 3},
+            {7, 8, 9, 1, 2, 3, 4, 5, 6},
+            {2, 3, 4, 5, 6, 7, 8, 9, 1},
+            {5, 6, 7, 8, 9, 1, 2, 3, 4},
+            {8, 9, 1, 2, 3, 4, 5, 6, 7},
+            {3, 4, 5, 6, 7, 8, 9, 1, 2},
+            {6, 7, 8, 9, 1, 2, 3, 4, 5},
+            {9, 1, 2, 3, 4, 5, 6, 7, 8}
+    };
 
     @Before
     public void createFields() throws IncorrectSudokuPointException {
@@ -32,6 +44,7 @@ public class SudokuFieldTest {
             }
         }
         sudokuNonEmptyField = new SudokuField(points);
+        sudokuNonEmptyArrayField = new SudokuField(correctSudokuArray);
     }
 
     @Test
@@ -55,6 +68,18 @@ public class SudokuFieldTest {
                 assertEquals(point.getPosX(), currentX);
                 assertEquals(point.getPosY(), currentY);
                 assertEquals(point.getValue(), value);
+            }
+        }
+    }
+
+    @Test
+    public void createNonEmptyArraySudokuField() {
+        for (int currentX : correctPosX) {
+            for (int currentY : correctPosY) {
+                SudokuPoint point = sudokuNonEmptyArrayField.getPoint(currentX, currentY);
+                assertEquals(point.getPosX(), currentX);
+                assertEquals(point.getPosY(), currentY);
+                assertEquals(point.getValue(), correctSudokuArray[currentY - 1][currentX - 1]);
             }
         }
     }
@@ -234,6 +259,70 @@ public class SudokuFieldTest {
             Integer[] actualArray = availableValuesForPoint.toArray(new Integer[availableValuesForPoint.size()]);
             assertArrayEquals(expectedArray, actualArray);
         }
+    }
+
+    @Test(expected = IncorrectSudokuPointException.class)
+    public void createSudokuFieldWithIncorrectYLowerArray() throws IncorrectSudokuPointException {
+        int[][] incorrectArray = new int[][]{
+                {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                {6, 7, 8, 9, 1, 2, 3, 4, 5}
+        };
+        SudokuField field = new SudokuField(incorrectArray);
+    }
+
+    @Test(expected = IncorrectSudokuPointException.class)
+    public void createSudokuFieldWithIncorrectYBiggerArray() throws IncorrectSudokuPointException {
+        int[][] incorrectArray = new int[][]{
+                {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                {5, 6, 7, 8, 9, 1, 2, 3, 4},
+                {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6}
+        };
+        SudokuField field = new SudokuField(incorrectArray);
+    }
+
+    @Test(expected = IncorrectSudokuPointException.class)
+    public void createSudokuFieldWithIncorrectXBiggerArray() throws IncorrectSudokuPointException {
+        int[][] incorrectArray = new int[][]{
+                {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                {5, 6, 7, 8, 9, 1, 2, 3, 4, 5},
+                {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6}
+        };
+        SudokuField field = new SudokuField(incorrectArray);
+    }
+
+    @Test(expected = IncorrectSudokuPointException.class)
+    public void createSudokuFieldWithIncorrectXLowerArray() throws IncorrectSudokuPointException {
+        int[][] incorrectArray = new int[][]{
+                {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                {2, 3, 4, 5, 6, 7, 8, 9, 1},
+                {5, 6, 7, 8, 9, 1, 2, 3},
+                {8, 9, 1, 2, 3, 4, 5, 6, 7},
+                {3, 4, 5, 6, 7, 8, 9, 1, 2},
+                {6, 7, 8, 9, 1, 2, 3, 4, 5},
+                {7, 8, 9, 1, 2, 3, 4, 5, 6}
+        };
+        SudokuField field = new SudokuField(incorrectArray);
     }
 
     @Test(expected = IncorrectSudokuFieldLineNumberException.class)
