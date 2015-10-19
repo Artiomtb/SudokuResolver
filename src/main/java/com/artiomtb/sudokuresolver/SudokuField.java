@@ -203,6 +203,19 @@ public class SudokuField {
         return availableValues;
     }
 
+    public List<SudokuPoint> getAllEmptySudokuPoints() {
+        List<SudokuPoint> emptyPoints = new ArrayList<>();
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                SudokuPoint point = getPoint(x + 1, y + 1);
+                if (point.isEmpty()) {
+                    emptyPoints.add(point);
+                }
+            }
+        }
+        return emptyPoints;
+    }
+
     private List<Integer> getNonAvailableValuesForVertical(int lineNum) throws IncorrectSudokuFieldLineNumberException {
         return getNonAvailableValuesForArray(getPointsByVerticalLine(lineNum));
     }
