@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class SudokuPointTest {
 
@@ -87,6 +86,22 @@ public class SudokuPointTest {
                 assertNotEquals(point1, point2);
             }
             assertEquals(point1, point1.clone());
+        }
+    }
+
+    @Test
+    public void isEmptyTest() throws IncorrectSudokuPointException {
+        for (int currentX : correctPosX) {
+            for (int currentY : correctPosY) {
+                SudokuPoint point = new SudokuPoint(currentX, currentY, 0);
+                assertTrue(point.isEmpty());
+                for (int currentValue = 1; currentValue < correctValue.length; currentValue++) {
+                    point.setValue(0);
+                    assertTrue(point.isEmpty());
+                    point.setValue(currentValue);
+                    assertFalse(point.isEmpty());
+                }
+            }
         }
     }
 
