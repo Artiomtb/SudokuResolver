@@ -64,6 +64,10 @@ public class SudokuPoint implements Cloneable {
         }
     }
 
+    public boolean isEmpty() {
+        return this.value == 0;
+    }
+
     private boolean isValueInRange(int value, int minValue, int maxValue) {
         return value >= minValue && value <= maxValue;
     }
