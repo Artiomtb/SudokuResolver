@@ -13,12 +13,26 @@ public class SudokuField {
     private static final Logger LOG = Logger.getLogger(SudokuField.class);
 
     public SudokuField() throws IncorrectSudokuPointException {
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                field[x][y] = new SudokuPoint(x + 1, y + 1, 0);
-            }
+        this.field = getEmptyField();
+        LOG.debug("Created: " + toString());
+    }
+
+    public SudokuField(Iterable<SudokuPoint> points) throws IncorrectSudokuPointException {
+        this.field = getEmptyField();
+        for(SudokuPoint point: points) {
+            this.field[point.getPosX() - 1][point.getPosY() - 1] = point;
         }
         LOG.debug("Created: " + toString());
+    }
+
+    private SudokuPoint[][] getEmptyField() throws IncorrectSudokuPointException {
+        SudokuPoint[][] emptyField = new SudokuPoint[9][9];
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                emptyField[x][y] = new SudokuPoint(x + 1, y + 1, 0);
+            }
+        }
+        return emptyField;
     }
 
     @Override
