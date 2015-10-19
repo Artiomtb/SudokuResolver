@@ -15,10 +15,9 @@ public class SudokuField {
     public SudokuField() throws IncorrectSudokuPointException {
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
-                field[x][y] = new SudokuPoint(x + 1, y + 1, y + 1);
+                field[x][y] = new SudokuPoint(x + 1, y + 1, 0);
             }
         }
-        field[4][0] = new SudokuPoint(1, 5, 2);
         LOG.debug("Created: " + toString());
     }
 
@@ -100,6 +99,16 @@ public class SudokuField {
             LOG.error("Exception while checking field validity", e);
         }
         return result;
+    }
+
+    public void setPoint(SudokuPoint point) {
+        field[point.getPosX() - 1][point.getPosY() - 1] = point;
+        LOG.debug("Set filed " + point);
+    }
+
+    public void setPoint(int posX, int posY, int value) throws IncorrectSudokuPointException {
+        SudokuPoint point = new SudokuPoint(posX, posY, value);
+        setPoint(point);
     }
 
     private boolean checkArrayToUnique(SudokuPoint[] array) {
