@@ -176,16 +176,16 @@ public class SudokuField {
         return line;
     }
 
-    public List<Integer> getAvailableValuesForPoint(int posX, int posY) throws IncorrectSudokuFieldLineNumberException {
-        if (posX < 1 || posX > 9) {
-            throw new IncorrectSudokuFieldLineNumberException("X position value should be in range [1,9] (now " + posX + ")");
+    public List<Integer> getAvailableValuesForPoint(int xLineNum, int yLineNum) throws IncorrectSudokuFieldLineNumberException {
+        if (xLineNum < 1 || xLineNum > 9) {
+            throw new IncorrectSudokuFieldLineNumberException("X line position value should be in range [1,9] (now " + xLineNum + ")");
         }
-        if (posY < 1 || posY > 9) {
-            throw new IncorrectSudokuFieldLineNumberException("Y position value should be in range [1,9] (now " + posY + ")");
+        if (yLineNum < 1 || yLineNum > 9) {
+            throw new IncorrectSudokuFieldLineNumberException("Y line position value should be in range [1,9] (now " + yLineNum + ")");
         }
-        List<Integer> nonAvailableValuesVertical = getNonAvailableValuesForVertical(posX);
-        List<Integer> nonAvailableValuesHorizontal = getNonAvailableValuesForHorizontal(posY);
-        List<Integer> nonAvailableValuesSquare = getNonAvailableValuesForSquare(getSquareByPos(posX, posY));
+        List<Integer> nonAvailableValuesVertical = getNonAvailableValuesForVertical(xLineNum);
+        List<Integer> nonAvailableValuesHorizontal = getNonAvailableValuesForHorizontal(yLineNum);
+        List<Integer> nonAvailableValuesSquare = getNonAvailableValuesForSquare(getSquareByPos(xLineNum, yLineNum));
         List<Integer> nonAvailableValues = new ArrayList<>();
         List<Integer> availableValues = new ArrayList<>();
         nonAvailableValues.addAll(nonAvailableValuesHorizontal);
