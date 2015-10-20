@@ -244,6 +244,22 @@ public class SudokuField {
         return emptyPoints;
     }
 
+    public boolean isSolved() {
+        boolean result = checkFieldValidity();
+        if (result) {
+            checking:
+            for (int y = 0; y < 9; y++) {
+                for (int x = 0; x < 9; x++) {
+                    if (field[x][y].getValue() == 0) {
+                        result = false;
+                        break checking;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     private List<Integer> getNonAvailableValuesForVertical(int lineNum) {
         return getNonAvailableValuesForArray(getPointsByVerticalLine(lineNum));
     }
