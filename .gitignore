@@ -3,7 +3,7 @@
 .idea/
 
 #Don't commit logs
-*.log
+*.log*
 
 #Don't commit Java class files and build artifacts
 target/
