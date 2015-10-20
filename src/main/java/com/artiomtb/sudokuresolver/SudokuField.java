@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-public class SudokuField {
+public class SudokuField implements Cloneable {
 
     private SudokuPoint[][] field = new SudokuPoint[9][9];
 
@@ -309,5 +309,18 @@ public class SudokuField {
             }
         }
         return isArrayUnique;
+    }
+
+    @Override
+    public SudokuField clone() {
+        SudokuField cloned = null;
+        List<SudokuPoint> points = new ArrayList<>();
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                points.add(getPoint(x + 1, y + 1).clone());
+            }
+        }
+        cloned = new SudokuField(points);
+        return cloned;
     }
 }
