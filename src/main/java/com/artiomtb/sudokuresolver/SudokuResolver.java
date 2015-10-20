@@ -20,16 +20,16 @@ public class SudokuResolver {
         return field.getAvailableValuesForPoint(posX, posY).size();
     }
 
-    private int getAvailableValuesCount(SudokuPoint point) throws IncorrectSudokuFieldLineNumberException {
+    private int getAvailableValuesCount(SudokuPoint point) {
         return field.getAvailableValuesForPoint(point).size();
     }
 
-    private SudokuPoint getPointWithMinimalAvailableValues(SudokuField field) throws IncorrectSudokuFieldLineNumberException {
+    private SudokuPoint getPointWithMinimalAvailableValues(SudokuField field) {
         List<SudokuPoint> allEmptySudokuPoints = field.getAllEmptySudokuPoints();
         SudokuPoint tempPoint = allEmptySudokuPoints.get(0);
         int x = tempPoint.getPosX();
         int y = tempPoint.getPosY();
-        int tempAvailableValues = getAvailableValuesCount(x, y);
+        int tempAvailableValues = getAvailableValuesCount(tempPoint);
         for (int i = 1; i < allEmptySudokuPoints.size(); i++) {
             SudokuPoint currentPoint = allEmptySudokuPoints.get(i);
             int currentAvailableVariants = getAvailableValuesCount(currentPoint);
