@@ -1,23 +1,50 @@
 package com.artiomtb.sudokuresolver;
 
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuFieldLineNumberException;
+import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SudokuResolver {
 
     private SudokuField field;
+    private List<SudokuField> answers = new ArrayList<>();
+    private boolean isSolved = false;
+    private int answerLimit = DEFAULT_ANSWER_LIMIT;
+
+    private static final int DEFAULT_ANSWER_LIMIT = 1000;
+
 
     private static final Logger LOG = Logger.getLogger(SudokuResolver.class);
 
-    public SudokuResolver(SudokuField field) {
+    public SudokuResolver(SudokuField field) throws IncorrectSudokuPointException {
         this.field = field;
-        //TODO create resolver logic
+        if (!field.isSolved()) {
+            resolveSudoku();
+        }
     }
 
-    private int getAvailableValuesCount(int posX, int posY) throws IncorrectSudokuFieldLineNumberException {
-        return field.getAvailableValuesForPoint(posX, posY).size();
+    public SudokuResolver(SudokuField field, int limit) {
+        this.field = field;
+        answerLimit = limit;
+        if (!field.isSolved()) {
+            resolveSudoku();
+        }
+    }
+
+    private void resolveSudoku() {
+        LOG.info("Trying to resolve sudoku:\n" + field);
+        tryToSetValue(field);
+        LOG.info("Founded " + getResolvedSudokuCount() + " resolutions for this field");
+    }
+
+    public List<SudokuField> getResolvedSudoku() {
+        return this.answers;
+    }
+
+    public int getResolvedSudokuCount() {
+        return this.answers.size();
     }
 
     private int getAvailableValuesCount(SudokuPoint point) {
@@ -40,5 +67,38 @@ public class SudokuResolver {
             }
         }
         return field.getPoint(x, y);
+    }
+
+    private void tryToSetValue(SudokuField currentField) {
+        if (isSolved) {
+            if (answers.size() >= answerLimit) {
+                LOG.debug("Answers limit " + answerLimit + " exceeded. Stopping resolving");
+                return;
+            }
+        }
+        if (currentField.isSolved()) {
+            isSolved = true;
+            answers.add(currentField);
+            LOG.debug("Found " + answers.size() + " resolution");
+            return;
+        } else if (!currentField.checkFieldValidity()) {
+            LOG.debug("Current resolution is incorrect. Returning");
+            return;
+        } else {
+            try {
+                SudokuPoint pointWithMinAvailValues = getPointWithMinimalAvailableValues(currentField);
+                List<Integer> availableValuesForPoint = currentField.getAvailableValuesForPoint(pointWithMinAvailValues);
+                LOG.debug("Current point to set " + pointWithMinAvailValues + ", values: " + availableValuesForPoint);
+                int i = 0;
+                for (Integer currentValue : availableValuesForPoint) {
+                    LOG.debug("Checking " + ++i + " variant for " + pointWithMinAvailValues + " (set " + currentValue + ")");
+                    SudokuField fieldBeforeSetTry = currentField.clone();
+                    fieldBeforeSetTry.setPoint(pointWithMinAvailValues.getPosX(), pointWithMinAvailValues.getPosY(), currentValue);
+                    tryToSetValue(fieldBeforeSetTry);
+                }
+            } catch (IncorrectSudokuPointException e) {
+                LOG.error("Exception while setting Point" , e);
+            }
+        }
     }
 }
