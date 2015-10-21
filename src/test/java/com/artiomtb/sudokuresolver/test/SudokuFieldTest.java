@@ -261,6 +261,40 @@ public class SudokuFieldTest {
         }
     }
 
+    @Test
+    public void isSolvedTest() throws IncorrectSudokuPointException {
+        SudokuField field = new SudokuField();
+        assertFalse(field.isSolved());
+        field = new SudokuField(correctSudokuArray);
+        assertTrue(field.isSolved());
+        SudokuPoint point = field.getPoint(9, 9);
+        field.setPoint(9, 9, 0);
+        assertFalse(field.isSolved());
+        field.setPoint(point);
+        assertTrue(field.isSolved());
+    }
+
+    @Test
+    public void fieldCloneTest() throws IncorrectSudokuPointException {
+        SudokuField field = new SudokuField();
+        SudokuField clonedField = field.clone();
+        for (int y = 1; y <= 9; y++) {
+            for (int x = 1; x <= 9; x++) {
+                assertEquals(field.getPoint(x, y), clonedField.getPoint(x, y));
+            }
+        }
+        field = new SudokuField(correctSudokuArray);
+        clonedField = field.clone();
+        for (int y = 1; y <= 9; y++) {
+            for (int x = 1; x <= 9; x++) {
+                assertEquals(field.getPoint(x, y), clonedField.getPoint(x, y));
+            }
+        }
+        field.setPoint(1, 1, 5);
+        clonedField.setPoint(1, 1, 7);
+        assertNotEquals(field.getPoint(1, 1).getValue(), clonedField.getPoint(1, 1).getValue());
+    }
+
     @Test(expected = IncorrectSudokuPointException.class)
     public void createSudokuFieldWithIncorrectYLowerArray() throws IncorrectSudokuPointException {
         int[][] incorrectArray = new int[][]{
