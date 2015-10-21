@@ -70,20 +70,14 @@ public class SudokuResolver {
     }
 
     private void tryToSetValue(SudokuField currentField) {
-        if (isSolved) {
-            if (answers.size() >= answerLimit) {
-                LOG.debug("Answers limit " + answerLimit + " exceeded. Stopping resolving");
-                return;
-            }
-        }
-        if (currentField.isSolved()) {
+        if (isSolved && answers.size() >= answerLimit) {
+            LOG.debug("Answers limit " + answerLimit + " exceeded. Stopping resolving");
+        } else if (currentField.isSolved()) {
             isSolved = true;
             answers.add(currentField);
             LOG.debug("Found " + answers.size() + " resolution");
-            return;
         } else if (!currentField.checkFieldValidity()) {
             LOG.debug("Current resolution is incorrect. Returning");
-            return;
         } else {
             try {
                 SudokuPoint pointWithMinAvailValues = getPointWithMinimalAvailableValues(currentField);
@@ -97,7 +91,7 @@ public class SudokuResolver {
                     tryToSetValue(fieldBeforeSetTry);
                 }
             } catch (SudokuException e) {
-                LOG.error("Exception while setting Point" , e);
+                LOG.error("Exception while setting Point", e);
             }
         }
     }
