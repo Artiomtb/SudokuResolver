@@ -2,8 +2,7 @@ package com.artiomtb.sudokuresolver.test;
 
 import com.artiomtb.sudokuresolver.SudokuField;
 import com.artiomtb.sudokuresolver.SudokuPoint;
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuFieldLineNumberException;
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ public class SudokuFieldTest {
     };
 
     @Before
-    public void createFields() throws IncorrectSudokuPointException {
+    public void createFields() throws SudokuException {
         sudokuEmptyField = new SudokuField();
         List<SudokuPoint> points = new ArrayList<>();
         for (int currentX : correctPosX) {
@@ -85,7 +84,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void setPointTest() throws IncorrectSudokuPointException {
+    public void setPointTest() throws SudokuException {
         for (int currentX : correctPosX) {
             for (int currentY : correctPosY) {
                 int value = Math.max(currentX, currentY);
@@ -105,7 +104,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkValidityTest() throws IncorrectSudokuPointException {
+    public void checkValidityTest() throws SudokuException {
         SudokuField field = new SudokuField();
         assertTrue(field.checkFieldValidity());
         field.setPoint(new SudokuPoint(1, 1, 1));
@@ -127,7 +126,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void getAllEmptySudokoPointsTest() throws IncorrectSudokuPointException {
+    public void getAllEmptySudokoPointsTest() throws SudokuException {
         SudokuField field = new SudokuField();
         List<SudokuPoint> emptyPointsList;
         List<SudokuPoint> expectedPointsList = new ArrayList<>();
@@ -168,7 +167,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkHorizontalValidityTest() throws IncorrectSudokuPointException, IncorrectSudokuFieldLineNumberException {
+    public void checkHorizontalValidityTest() throws SudokuException, SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
             assertTrue(field.checkHorizontalLine(currentLine));
@@ -184,7 +183,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkVerticalValidityTest() throws IncorrectSudokuPointException, IncorrectSudokuFieldLineNumberException {
+    public void checkVerticalValidityTest() throws SudokuException, SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
             assertTrue(field.checkVerticalLine(currentLine));
@@ -200,7 +199,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkSquareValidityTest() throws IncorrectSudokuPointException, IncorrectSudokuFieldLineNumberException {
+    public void checkSquareValidityTest() throws SudokuException, SudokuException {
         SudokuField field = new SudokuField();
         for (int currentSquare = 1; currentSquare <= 9; currentSquare++) {
             assertTrue(field.checkSquare(currentSquare));
@@ -234,7 +233,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkAvailableValuesTest() throws IncorrectSudokuPointException, IncorrectSudokuFieldLineNumberException {
+    public void checkAvailableValuesTest() throws SudokuException, SudokuException {
         SudokuField field = new SudokuField();
         int[][] coords = {
                 {1, 2, 3, 1, 9, 2, 3, 1, 7},
@@ -262,7 +261,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void isSolvedTest() throws IncorrectSudokuPointException {
+    public void isSolvedTest() throws SudokuException {
         SudokuField field = new SudokuField();
         assertFalse(field.isSolved());
         field = new SudokuField(correctSudokuArray);
@@ -275,7 +274,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void fieldCloneTest() throws IncorrectSudokuPointException {
+    public void fieldCloneTest() throws SudokuException {
         SudokuField field = new SudokuField();
         SudokuField clonedField = field.clone();
         for (int y = 1; y <= 9; y++) {
@@ -295,8 +294,8 @@ public class SudokuFieldTest {
         assertNotEquals(field.getPoint(1, 1).getValue(), clonedField.getPoint(1, 1).getValue());
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createSudokuFieldWithIncorrectYLowerArray() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createSudokuFieldWithIncorrectYLowerArray() throws SudokuException {
         int[][] incorrectArray = new int[][]{
                 {1, 2, 3, 4, 5, 6, 7, 8, 9},
                 {4, 5, 6, 7, 8, 9, 1, 2, 3},
@@ -310,8 +309,8 @@ public class SudokuFieldTest {
         SudokuField field = new SudokuField(incorrectArray);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createSudokuFieldWithIncorrectYBiggerArray() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createSudokuFieldWithIncorrectYBiggerArray() throws SudokuException {
         int[][] incorrectArray = new int[][]{
                 {1, 2, 3, 4, 5, 6, 7, 8, 9},
                 {4, 5, 6, 7, 8, 9, 1, 2, 3},
@@ -327,8 +326,8 @@ public class SudokuFieldTest {
         SudokuField field = new SudokuField(incorrectArray);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createSudokuFieldWithIncorrectXBiggerArray() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createSudokuFieldWithIncorrectXBiggerArray() throws SudokuException {
         int[][] incorrectArray = new int[][]{
                 {1, 2, 3, 4, 5, 6, 7, 8, 9},
                 {4, 5, 6, 7, 8, 9, 1, 2, 3},
@@ -343,8 +342,8 @@ public class SudokuFieldTest {
         SudokuField field = new SudokuField(incorrectArray);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createSudokuFieldWithIncorrectXLowerArray() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createSudokuFieldWithIncorrectXLowerArray() throws SudokuException {
         int[][] incorrectArray = new int[][]{
                 {1, 2, 3, 4, 5, 6, 7, 8, 9},
                 {4, 5, 6, 7, 8, 9, 1, 2, 3},
@@ -359,195 +358,195 @@ public class SudokuFieldTest {
         SudokuField field = new SudokuField(incorrectArray);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectVerticalLineLessBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectVerticalLineLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkVerticalLine(0);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectVerticalLineLess() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectVerticalLineLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkVerticalLine(-100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectVerticalLineMoreBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectVerticalLineMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkVerticalLine(10);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectVerticalLineMore() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectVerticalLineMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkVerticalLine(100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectHorizontalLineLessBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectHorizontalLineLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkHorizontalLine(0);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectHorizontalLineLess() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectHorizontalLineLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkHorizontalLine(-100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectHorizontalLineMoreBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectHorizontalLineMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkHorizontalLine(10);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectHorizontalLineMore() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectHorizontalLineMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkHorizontalLine(100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectSquareLessBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectSquareLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkSquare(0);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectSquareLess() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectSquareLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkSquare(-100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectSquareMoreBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectSquareMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkSquare(10);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void checkIncorrectSquareMore() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void checkIncorrectSquareMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.checkSquare(100);
     }
 
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectXPointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectXPointLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(0, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectXPointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectXPointMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(10, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectXPointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectXPointLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(-10, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectXPointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectXPointMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(100, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectYPointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectYPointLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 0, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectYPointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectYPointMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectYPointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectYPointLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, -10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectYPointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectYPointMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, -10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectValuePointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectValuePointLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 5, -1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectValuePointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectValuePointMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 5, 10);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectValuePointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectValuePointLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 5, -10);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void setIncorrectValuePointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void setIncorrectValuePointMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.setPoint(5, 5, 100);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesXPointLessBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesXPointLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(0, 5);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesXPointMoreBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesXPointMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(10, 5);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesXPointLess() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesXPointLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(-10, 5);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesXPointMore() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesXPointMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(100, 5);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesYPointLessBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesYPointLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(5, 0);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesYPointMoreBorder() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesYPointMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(5, 10);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesYPointLess() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesYPointLess() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(5, -10);
     }
 
-    @Test(expected = IncorrectSudokuFieldLineNumberException.class)
-    public void getIncorrectAvailableValuesYPointMore() throws IncorrectSudokuFieldLineNumberException {
+    @Test(expected = SudokuException.class)
+    public void getIncorrectAvailableValuesYPointMore() throws SudokuException {
         SudokuField field = new SudokuField();
         field.getAvailableValuesForPoint(5, -10);
     }

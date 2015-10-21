@@ -1,7 +1,6 @@
 package com.artiomtb.sudokuresolver;
 
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuFieldLineNumberException;
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -19,16 +18,16 @@ public class SudokuField implements Cloneable {
         LOG.debug("Created: " + toString());
     }
 
-    public SudokuField(int[][] coordsValues) throws IncorrectSudokuPointException {
+    public SudokuField(int[][] coordsValues) throws SudokuException {
         int arrayVerticalLength = coordsValues.length;
         if (arrayVerticalLength != 9) {
-            throw new IncorrectSudokuPointException("Vertical size of field array should be equals to 9 (now " +
+            throw new SudokuException("Vertical size of field array should be equals to 9 (now " +
                     arrayVerticalLength + ")");
         }
         for (int currentY = 0; currentY < 9; currentY++) {
             int currentArrayHorizontalLength = coordsValues[currentY].length;
             if (currentArrayHorizontalLength != 9) {
-                throw new IncorrectSudokuPointException("Horizontal size of field array should be equals to 9 (now " +
+                throw new SudokuException("Horizontal size of field array should be equals to 9 (now " +
                         currentArrayHorizontalLength + " on y = " + (currentY + 1) + ")");
             }
             for (int currentX = 0; currentX < 9; currentX++) {
@@ -53,7 +52,7 @@ public class SudokuField implements Cloneable {
                     emptyField[x][y] = new SudokuPoint(x + 1, y + 1, 0);
                 }
             }
-        } catch (IncorrectSudokuPointException e) {
+        } catch (SudokuException e) {
             LOG.error("Exception while creating an empty Sudoku field");
         }
         return emptyField;
@@ -81,21 +80,21 @@ public class SudokuField implements Cloneable {
         return this.field[posX - 1][posY - 1];
     }
 
-    public boolean checkVerticalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+    public boolean checkVerticalLine(int lineNum) throws SudokuException {
         if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+            throw new SudokuException("Line value should be in range [1,9] (now " + lineNum + ")");
         return checkArrayToUnique(getPointsByVerticalLine(lineNum));
     }
 
-    public boolean checkHorizontalLine(int lineNum) throws IncorrectSudokuFieldLineNumberException {
+    public boolean checkHorizontalLine(int lineNum) throws SudokuException {
         if (lineNum < 1 || lineNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Line value should be in range [1,9] (now " + lineNum + ")");
+            throw new SudokuException("Line value should be in range [1,9] (now " + lineNum + ")");
         return checkArrayToUnique(getPointsByHorizontalLine(lineNum));
     }
 
-    public boolean checkSquare(int squareNum) throws IncorrectSudokuFieldLineNumberException {
+    public boolean checkSquare(int squareNum) throws SudokuException {
         if (squareNum < 1 || squareNum > 9)
-            throw new IncorrectSudokuFieldLineNumberException("Square value should be in range [1,9] (now " + squareNum + ")");
+            throw new SudokuException("Square value should be in range [1,9] (now " + squareNum + ")");
         return checkArrayToUnique(getPointsBySquareNum(squareNum));
     }
 
@@ -108,7 +107,7 @@ public class SudokuField implements Cloneable {
                     break;
                 }
             }
-        } catch (IncorrectSudokuFieldLineNumberException e) {
+        } catch (SudokuException e) {
             LOG.error("Exception while checking field validity", e);
         }
         return result;
@@ -119,7 +118,7 @@ public class SudokuField implements Cloneable {
         LOG.debug("Set filed " + point);
     }
 
-    public void setPoint(int posX, int posY, int value) throws IncorrectSudokuPointException {
+    public void setPoint(int posX, int posY, int value) throws SudokuException {
         SudokuPoint point = new SudokuPoint(posX, posY, value);
         setPoint(point);
     }
@@ -194,12 +193,12 @@ public class SudokuField implements Cloneable {
         return line;
     }
 
-    public List<Integer> getAvailableValuesForPoint(int xLineNum, int yLineNum) throws IncorrectSudokuFieldLineNumberException {
+    public List<Integer> getAvailableValuesForPoint(int xLineNum, int yLineNum) throws SudokuException {
         if (xLineNum < 1 || xLineNum > 9) {
-            throw new IncorrectSudokuFieldLineNumberException("X line position value should be in range [1,9] (now " + xLineNum + ")");
+            throw new SudokuException("X line position value should be in range [1,9] (now " + xLineNum + ")");
         }
         if (yLineNum < 1 || yLineNum > 9) {
-            throw new IncorrectSudokuFieldLineNumberException("Y line position value should be in range [1,9] (now " + yLineNum + ")");
+            throw new SudokuException("Y line position value should be in range [1,9] (now " + yLineNum + ")");
         }
         List<Integer> nonAvailableValuesVertical = getNonAvailableValuesForVertical(xLineNum);
         List<Integer> nonAvailableValuesHorizontal = getNonAvailableValuesForHorizontal(yLineNum);
@@ -225,7 +224,7 @@ public class SudokuField implements Cloneable {
         List<Integer> availableValues = null;
         try {
             availableValues = getAvailableValuesForPoint(point.getPosX(), point.getPosY());
-        } catch (IncorrectSudokuFieldLineNumberException e) {
+        } catch (SudokuException e) {
             LOG.error("Exception while getting available values for " + point, e);
         }
         return availableValues;

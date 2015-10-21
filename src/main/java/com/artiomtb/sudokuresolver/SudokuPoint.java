@@ -1,6 +1,6 @@
 package com.artiomtb.sudokuresolver;
 
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 public class SudokuPoint implements Cloneable {
@@ -18,7 +18,7 @@ public class SudokuPoint implements Cloneable {
 
     private static final Logger LOG = Logger.getLogger(SudokuPoint.class);
 
-    public SudokuPoint(int posX, int posY, int value) throws IncorrectSudokuPointException {
+    public SudokuPoint(int posX, int posY, int value) throws SudokuException {
         setPosX(posX);
         setPosY(posY);
         setValue(value);
@@ -33,20 +33,20 @@ public class SudokuPoint implements Cloneable {
         return posY;
     }
 
-    public void setPosX(int posX) throws IncorrectSudokuPointException {
+    public void setPosX(int posX) throws SudokuException {
         if (isValueInRange(posX, MIN_POSITION_X, MAX_POSITION_X)) {
             this.posX = posX;
         } else {
-            throw new IncorrectSudokuPointException("X position should be in range [" + MIN_POSITION_X +
+            throw new SudokuException("X position should be in range [" + MIN_POSITION_X +
                     "," + MAX_POSITION_X + "] (now " + posX + ")");
         }
     }
 
-    public void setPosY(int posY) throws IncorrectSudokuPointException {
+    public void setPosY(int posY) throws SudokuException {
         if (isValueInRange(posY, MIN_POSITION_Y, MAX_POSITION_Y)) {
             this.posY = posY;
         } else {
-            throw new IncorrectSudokuPointException("Y position should be in range [" + MIN_POSITION_Y +
+            throw new SudokuException("Y position should be in range [" + MIN_POSITION_Y +
                     "," + MAX_POSITION_Y + "] (now " + posY + ")");
         }
     }
@@ -55,11 +55,11 @@ public class SudokuPoint implements Cloneable {
         return value;
     }
 
-    public void setValue(int value) throws IncorrectSudokuPointException {
+    public void setValue(int value) throws SudokuException {
         if (isValueInRange(value, MIN_VALUE, MAX_VALUE)) {
             this.value = value;
         } else {
-            throw new IncorrectSudokuPointException("Point value should be in range [" + MIN_VALUE +
+            throw new SudokuException("Point value should be in range [" + MIN_VALUE +
                     "," + MAX_VALUE + "] (now " + value + ")");
         }
     }

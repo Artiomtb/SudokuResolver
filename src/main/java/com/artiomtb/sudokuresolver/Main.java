@@ -1,6 +1,6 @@
 package com.artiomtb.sudokuresolver;
 
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class Main {
             for (SudokuField resolvedField : resolvedSudokuList) {
                 LOG.info("Resolution #" + ++sudokuResolvedIndex + "\n" + resolvedField);
             }
-        } catch (IncorrectSudokuPointException e) {
+        } catch (SudokuException e) {
             LOG.error(e.getMessage(), e);
         }
     }

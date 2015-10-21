@@ -1,6 +1,6 @@
 package com.artiomtb.sudokuresolver;
 
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class SudokuResolver {
 
     private static final Logger LOG = Logger.getLogger(SudokuResolver.class);
 
-    public SudokuResolver(SudokuField field) throws IncorrectSudokuPointException {
+    public SudokuResolver(SudokuField field) throws SudokuException {
         this.field = field;
         if (!field.isSolved()) {
             resolveSudoku();
@@ -96,7 +96,7 @@ public class SudokuResolver {
                     fieldBeforeSetTry.setPoint(pointWithMinAvailValues.getPosX(), pointWithMinAvailValues.getPosY(), currentValue);
                     tryToSetValue(fieldBeforeSetTry);
                 }
-            } catch (IncorrectSudokuPointException e) {
+            } catch (SudokuException e) {
                 LOG.error("Exception while setting Point" , e);
             }
         }

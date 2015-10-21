@@ -1,7 +1,7 @@
 package com.artiomtb.sudokuresolver.test;
 
 import com.artiomtb.sudokuresolver.SudokuPoint;
-import com.artiomtb.sudokuresolver.exceptions.IncorrectSudokuPointException;
+import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class SudokuPointTest {
     private final int correctValue[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     @Test
-    public void createCorrectPointTest() throws IncorrectSudokuPointException {
+    public void createCorrectPointTest() throws SudokuException {
         for (int currentX : correctPosX) {
             for (int currentY : correctPosY) {
                 for (int currentValue : correctValue) {
@@ -30,7 +30,7 @@ public class SudokuPointTest {
     }
 
     @Test
-    public void setterXTest() throws IncorrectSudokuPointException {
+    public void setterXTest() throws SudokuException {
         SudokuPoint point = new SudokuPoint(1, 1, 1);
         for (int currentPosX : correctPosX) {
             point.setPosX(currentPosX);
@@ -39,7 +39,7 @@ public class SudokuPointTest {
     }
 
     @Test
-    public void setterYTest() throws IncorrectSudokuPointException {
+    public void setterYTest() throws SudokuException {
         SudokuPoint point = new SudokuPoint(1, 1, 1);
         for (int currentPosY : correctPosY) {
             point.setPosY(currentPosY);
@@ -48,7 +48,7 @@ public class SudokuPointTest {
     }
 
     @Test
-    public void setterValueTest() throws IncorrectSudokuPointException {
+    public void setterValueTest() throws SudokuException {
         SudokuPoint point = new SudokuPoint(1, 1, 1);
         for (int currentValue : correctValue) {
             point.setValue(currentValue);
@@ -57,14 +57,14 @@ public class SudokuPointTest {
     }
 
     @Test
-    public void cloneTest() throws IncorrectSudokuPointException, CloneNotSupportedException {
+    public void cloneTest() throws SudokuException, CloneNotSupportedException {
         SudokuPoint point = new SudokuPoint(1, 1, 1);
         SudokuPoint clonedPoint = point.clone();
         assertEquals(point, clonedPoint);
     }
 
     @Test
-    public void equalsTest() throws IncorrectSudokuPointException {
+    public void equalsTest() throws SudokuException {
         List<SudokuPoint> allAvailablePoints = new ArrayList<>();
         for (int currentPosX : correctPosX) {
             for (int currentPosY : correctPosY) {
@@ -90,7 +90,7 @@ public class SudokuPointTest {
     }
 
     @Test
-    public void isEmptyTest() throws IncorrectSudokuPointException {
+    public void isEmptyTest() throws SudokuException {
         for (int currentX : correctPosX) {
             for (int currentY : correctPosY) {
                 SudokuPoint point = new SudokuPoint(currentX, currentY, 0);
@@ -105,63 +105,63 @@ public class SudokuPointTest {
         }
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectXPointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectXPointLessBorder() throws SudokuException {
         new SudokuPoint(0, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectXPointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectXPointMoreBorder() throws SudokuException {
         new SudokuPoint(10, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectXPointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectXPointLess() throws SudokuException {
         new SudokuPoint(-10, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectXPointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectXPointMore() throws SudokuException {
         new SudokuPoint(100, 5, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectYPointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectYPointLessBorder() throws SudokuException {
         new SudokuPoint(5, 0, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectYPointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectYPointMoreBorder() throws SudokuException {
         new SudokuPoint(5, 10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectYPointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectYPointLess() throws SudokuException {
         new SudokuPoint(5, -10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectYPointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectYPointMore() throws SudokuException {
         new SudokuPoint(5, -10, 1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectValuePointLessBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectValuePointLessBorder() throws SudokuException {
         new SudokuPoint(5, 5, -1);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectValuePointMoreBorder() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectValuePointMoreBorder() throws SudokuException {
         new SudokuPoint(5, 5, 10);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectValuePointLess() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectValuePointLess() throws SudokuException {
         new SudokuPoint(5, 5, -10);
     }
 
-    @Test(expected = IncorrectSudokuPointException.class)
-    public void createIncorrectValuePointMore() throws IncorrectSudokuPointException {
+    @Test(expected = SudokuException.class)
+    public void createIncorrectValuePointMore() throws SudokuException {
         new SudokuPoint(5, 5, 100);
     }
 
