@@ -18,25 +18,34 @@ public class SudokuResolver {
 
     private static final Logger LOG = Logger.getLogger(SudokuResolver.class);
 
-    public SudokuResolver(SudokuField field) {
+    public SudokuResolver(SudokuField field) throws SudokuException {
         this.field = field;
-        if (!field.isSolved()) {
+        if (!field.checkFieldValidity()) {
+            throw new SudokuException("This field is not correct");
+        } else {
             resolveSudoku();
         }
     }
 
-    public SudokuResolver(SudokuField field, int limit) {
+    public SudokuResolver(SudokuField field, int limit) throws SudokuException {
         this.field = field;
         answerLimit = limit;
-        if (!field.isSolved()) {
+        if (!field.checkFieldValidity()) {
+            throw new SudokuException("This field is not correct");
+        } else {
             resolveSudoku();
         }
     }
 
     private void resolveSudoku() {
         LOG.info("Trying to resolve sudoku:\n" + field);
-        tryToSetValue(field);
-        LOG.info("Founded " + getResolvedSudokuCount() + " resolutions for this field");
+        if (field.isSolved()) {
+            LOG.info("The field is already solved. Returning the same");
+            answers.add(field);
+        } else {
+            tryToSetValue(field);
+            LOG.info("Founded " + getResolvedSudokuCount() + " resolutions for this field");
+        }
     }
 
     public List<SudokuField> getResolvedSudoku() {
