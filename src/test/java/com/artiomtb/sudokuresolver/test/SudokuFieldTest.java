@@ -289,9 +289,15 @@ public class SudokuFieldTest {
                 assertEquals(field.getPoint(x, y), clonedField.getPoint(x, y));
             }
         }
-        field.setPoint(1, 1, 5);
-        clonedField.setPoint(1, 1, 7);
-        assertNotEquals(field.getPoint(1, 1).getValue(), clonedField.getPoint(1, 1).getValue());
+        for (int y = 1; y <= 9; y++) {
+            for (int x = 1; x <= 9; x++) {
+                int currentValueForOrigin = 5;
+                int currentValueForClone = 7;
+                field.setPoint(x, y, currentValueForOrigin);
+                clonedField.setPoint(x, y, currentValueForClone);
+                assertNotEquals(field.getPoint(x, y).getValue(), clonedField.getPoint(x, y).getValue());
+            }
+        }
     }
 
     @Test(expected = SudokuException.class)
