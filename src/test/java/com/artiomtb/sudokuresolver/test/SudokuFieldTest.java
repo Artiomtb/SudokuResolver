@@ -291,11 +291,11 @@ public class SudokuFieldTest {
         }
         for (int y = 1; y <= 9; y++) {
             for (int x = 1; x <= 9; x++) {
-                int currentValueForOrigin = 5;
-                int currentValueForClone = 7;
-                field.setPoint(x, y, currentValueForOrigin);
-                clonedField.setPoint(x, y, currentValueForClone);
-                assertNotEquals(field.getPoint(x, y).getValue(), clonedField.getPoint(x, y).getValue());
+                for (int value = 0; value <= 9; value++) {
+                    field.setPoint(x, y, value);
+                    clonedField.setPoint(x, y, (value + 1) % 9);
+                    assertNotEquals(field.getPoint(x, y).getValue(), clonedField.getPoint(x, y).getValue());
+                }
             }
         }
     }
