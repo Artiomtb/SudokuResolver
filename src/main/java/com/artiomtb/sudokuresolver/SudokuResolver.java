@@ -13,7 +13,7 @@ public class SudokuResolver {
     private boolean isSolved = false;
     private int answerLimit = DEFAULT_ANSWER_LIMIT;
 
-    private static final int DEFAULT_ANSWER_LIMIT = 1000;
+    private static final int DEFAULT_ANSWER_LIMIT = 1;
 
 
     private static final Logger LOG = Logger.getLogger(SudokuResolver.class);

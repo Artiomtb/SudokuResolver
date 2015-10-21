@@ -25,7 +25,7 @@ public class Main {
             };
 
             SudokuField field = new SudokuField(theHardestSudokuEver);
-            SudokuResolver sudokuResolver = new SudokuResolver(field, 1);
+            SudokuResolver sudokuResolver = new SudokuResolver(field);
             int sudokuResolvedIndex = 0;
             List<SudokuField> resolvedSudokuList = sudokuResolver.getResolvedSudoku();
             for (SudokuField resolvedField : resolvedSudokuList) {
