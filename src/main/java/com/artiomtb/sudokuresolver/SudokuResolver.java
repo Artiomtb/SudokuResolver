@@ -110,29 +110,29 @@ public class SudokuResolver {
     }
 
     private List<Integer> getOptimalOrder(List<Integer> availableValuesForPoint, SudokuField currentField, SudokuPoint pointWithMinAvailValues) {
-        int[] statistics = new int[9];
+        int[] groupValueForAllAnotherPoints = new int[9];
         List<Integer> result = new ArrayList<>();
         List<SudokuPoint> anotherEmptyPoints = currentField.getAllEmptySudokuPoints();
         anotherEmptyPoints.remove(pointWithMinAvailValues);
-        for (SudokuPoint p : anotherEmptyPoints) {
-            List<Integer> availableValuesForCurPoint = currentField.getAvailableValuesForPoint(p);
-            for (Integer i : availableValuesForCurPoint) {
-                statistics[i - 1] = statistics[i - 1] + 1;
+        for (SudokuPoint point : anotherEmptyPoints) {
+            List<Integer> availableValuesForCurPoint = currentField.getAvailableValuesForPoint(point);
+            for (Integer currentValue : availableValuesForCurPoint) {
+                groupValueForAllAnotherPoints[currentValue - 1] = groupValueForAllAnotherPoints[currentValue - 1] + 1;
             }
         }
-        int[][] stat2 = new int[availableValuesForPoint.size()][2];
+        int[][] groupValueForAvailPointsOnly = new int[availableValuesForPoint.size()][2];
         int index = 0;
-        for (Integer in : availableValuesForPoint) {
-            stat2[index][0] = in;
-            stat2[index++][1] = statistics[in - 1];
+        for (Integer currentValue : availableValuesForPoint) {
+            groupValueForAvailPointsOnly[index][0] = currentValue;
+            groupValueForAvailPointsOnly[index++][1] = groupValueForAllAnotherPoints[currentValue - 1];
         }
-        Arrays.sort(stat2, (arr1, arr2) -> Integer.compare(arr1[1], arr2[1]));
-        if (stat2[0][1] != 0) {
-            for (int i = 0; i < stat2.length; i++) {
-                result.add(stat2[i][0]);
+        Arrays.sort(groupValueForAvailPointsOnly, (arr1, arr2) -> Integer.compare(arr1[1], arr2[1]));
+        if (groupValueForAvailPointsOnly[0][1] != 0) {
+            for (int[] currentValue : groupValueForAvailPointsOnly) {
+                result.add(currentValue[0]);
             }
-        } else if (stat2.length == 1 || (stat2.length > 1 && stat2[1][1] != 0)) {
-            result.add(stat2[0][0]);
+        } else if (groupValueForAvailPointsOnly.length == 1 || (groupValueForAvailPointsOnly.length > 1 && groupValueForAvailPointsOnly[1][1] != 0)) {
+            result.add(groupValueForAvailPointsOnly[0][0]);
         }
         return result;
     }
