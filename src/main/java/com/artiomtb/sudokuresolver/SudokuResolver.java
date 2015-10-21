@@ -3,9 +3,7 @@ package com.artiomtb.sudokuresolver;
 import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SudokuResolver {
 
@@ -93,7 +91,7 @@ public class SudokuResolver {
                 SudokuPoint pointWithMinAvailValues = getPointWithMinimalAvailableValues(currentField);
                 List<Integer> availableValuesForPoint = currentField.getAvailableValuesForPoint(pointWithMinAvailValues);
 
-                if(availableValuesForPoint.size() > 1) {
+                if (availableValuesForPoint.size() > 1) {
                     availableValuesForPoint = getOptimalOrder(availableValuesForPoint, currentField, pointWithMinAvailValues);
                 }
 
@@ -113,63 +111,29 @@ public class SudokuResolver {
 
     private List<Integer> getOptimalOrder(List<Integer> availableValuesForPoint, SudokuField currentField, SudokuPoint pointWithMinAvailValues) {
         int[] statistics = new int[9];
-
         List<Integer> result = new ArrayList<>();
         List<SudokuPoint> anotherEmptyPoints = currentField.getAllEmptySudokuPoints();
         anotherEmptyPoints.remove(pointWithMinAvailValues);
-
         for (SudokuPoint p : anotherEmptyPoints) {
             List<Integer> availableValuesForCurPoint = currentField.getAvailableValuesForPoint(p);
             for (Integer i : availableValuesForCurPoint) {
                 statistics[i - 1] = statistics[i - 1] + 1;
             }
         }
-
-
-        StringBuilder sb = new StringBuilder();
-//        System.out.println(availableValuesForPoint);
-        for (int i = 0; i < 9; i++) {
-            sb.append((i + 1) + ":" + statistics[i] + " ");
-        }
-//        System.out.println(sb.toString());
-
         int[][] stat2 = new int[availableValuesForPoint.size()][2];
-
         int index = 0;
         for (Integer in : availableValuesForPoint) {
             stat2[index][0] = in;
             stat2[index++][1] = statistics[in - 1];
         }
-        sb = new StringBuilder("Stat for availiable: ");
-        for (int i = 0; i < stat2.length; i++) {
-            sb.append(stat2[i][0] + ":" + stat2[i][1] + " ");
-        }
-//        System.out.println(sb.toString());
-        for (int i = 0; i < stat2.length - 1; i++) {
-            for (int j = i + 1; j < stat2.length; j++) {
-                if (stat2[i][1] > stat2[j][1]) {
-                    int t0 = stat2[i][0];
-                    int t1 = stat2[i][1];
-                    stat2[i][0] = stat2[j][0];
-                    stat2[i][1] = stat2[j][1];
-                    stat2[j][0] = t0;
-                    stat2[j][1] = t1;
-                }
-            }
-        }
-        sb = new StringBuilder("Stat for availiable: ");
-        for (int i = 0; i < stat2.length; i++) {
-            sb.append(stat2[i][0] + ":" + stat2[i][1] + " ");
-        }
-//        System.out.println(sb.toString());
-        if (stat2[0][1] == 0) {
-            result.add(stat2[0][0]);
-        } else {
+        Arrays.sort(stat2, (arr1, arr2) -> Integer.compare(arr1[1], arr2[1]));
+        if (stat2[0][1] != 0) {
             for (int i = 0; i < stat2.length; i++) {
                 result.add(stat2[i][0]);
             }
+        } else if (stat2.length == 1 || (stat2.length > 1 && stat2[1][1] != 0)) {
+            result.add(stat2[0][0]);
         }
-//        System.out.println(result);
         return result;
     }
 
