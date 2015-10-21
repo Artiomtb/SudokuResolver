@@ -312,14 +312,12 @@ public class SudokuField implements Cloneable {
 
     @Override
     public SudokuField clone() {
-        SudokuField cloned = null;
         List<SudokuPoint> points = new ArrayList<>();
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
                 points.add(getPoint(x + 1, y + 1).clone());
             }
         }
-        cloned = new SudokuField(points);
-        return cloned;
+        return new SudokuField(points);
     }
 }

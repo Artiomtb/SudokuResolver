@@ -18,7 +18,7 @@ public class SudokuResolver {
 
     private static final Logger LOG = Logger.getLogger(SudokuResolver.class);
 
-    public SudokuResolver(SudokuField field) throws SudokuException {
+    public SudokuResolver(SudokuField field) {
         this.field = field;
         if (!field.isSolved()) {
             resolveSudoku();

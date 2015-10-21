@@ -167,7 +167,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkHorizontalValidityTest() throws SudokuException, SudokuException {
+    public void checkHorizontalValidityTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
             assertTrue(field.checkHorizontalLine(currentLine));
@@ -183,7 +183,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkVerticalValidityTest() throws SudokuException, SudokuException {
+    public void checkVerticalValidityTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
             assertTrue(field.checkVerticalLine(currentLine));
@@ -199,7 +199,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkSquareValidityTest() throws SudokuException, SudokuException {
+    public void checkSquareValidityTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentSquare = 1; currentSquare <= 9; currentSquare++) {
             assertTrue(field.checkSquare(currentSquare));
@@ -233,7 +233,7 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkAvailableValuesTest() throws SudokuException, SudokuException {
+    public void checkAvailableValuesTest() throws SudokuException {
         SudokuField field = new SudokuField();
         int[][] coords = {
                 {1, 2, 3, 1, 9, 2, 3, 1, 7},
