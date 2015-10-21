@@ -320,4 +320,14 @@ public class SudokuField implements Cloneable {
         }
         return new SudokuField(points);
     }
+
+    public String toEasyString() {
+        StringBuilder sb = new StringBuilder();
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                sb.append(field[x][y].getValue());
+            }
+        }
+        return sb.toString();
+    }
 }
