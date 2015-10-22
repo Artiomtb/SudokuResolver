@@ -84,8 +84,6 @@ public class SudokuResolver {
             isSolved = true;
             answers.add(currentField);
             LOG.debug("Found " + answers.size() + " resolution");
-        } else if (!currentField.checkFieldValidity()) {
-            LOG.debug("Current resolution is incorrect. Returning");
         } else {
             try {
                 SudokuPoint pointWithMinAvailValues = getPointWithMinimalAvailableValues(currentField);
