@@ -300,6 +300,24 @@ public class SudokuFieldTest {
         }
     }
 
+    @Test
+    public void getEasyStringTest() throws SudokuException {
+        SudokuField field = new SudokuField();
+        String expectedString = "000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+        String actualString;
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                for (int value = 1; value <= 9; value++) {
+                    int pos = y * 9 + x;
+                    field.setPoint(x + 1, y + 1, value);
+                    expectedString = expectedString.substring(0, pos) + value + expectedString.substring(pos + 1);
+                    actualString = field.toEasyString();
+                    assertEquals(expectedString, actualString);
+                }
+            }
+        }
+    }
+
     @Test(expected = SudokuException.class)
     public void createSudokuFieldWithIncorrectYLowerArray() throws SudokuException {
         int[][] incorrectArray = new int[][]{
