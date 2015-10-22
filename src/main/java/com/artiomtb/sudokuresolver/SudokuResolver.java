@@ -3,8 +3,7 @@ package com.artiomtb.sudokuresolver;
 import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SudokuResolver {
 
@@ -85,12 +84,15 @@ public class SudokuResolver {
             isSolved = true;
             answers.add(currentField);
             LOG.debug("Found " + answers.size() + " resolution");
-        } else if (!currentField.checkFieldValidity()) {
-            LOG.debug("Current resolution is incorrect. Returning");
         } else {
             try {
                 SudokuPoint pointWithMinAvailValues = getPointWithMinimalAvailableValues(currentField);
                 List<Integer> availableValuesForPoint = currentField.getAvailableValuesForPoint(pointWithMinAvailValues);
+
+                if (availableValuesForPoint.size() > 1) {
+                    availableValuesForPoint = getOptimalOrder(availableValuesForPoint, currentField, pointWithMinAvailValues);
+                }
+
                 LOG.debug("Current point to set " + pointWithMinAvailValues + ", values: " + availableValuesForPoint);
                 int i = 0;
                 for (Integer currentValue : availableValuesForPoint) {
@@ -104,4 +106,33 @@ public class SudokuResolver {
             }
         }
     }
+
+    private List<Integer> getOptimalOrder(List<Integer> availableValuesForPoint, SudokuField currentField, SudokuPoint pointWithMinAvailValues) {
+        int[] groupValueForAllAnotherPoints = new int[9];
+        List<Integer> result = new ArrayList<>();
+        List<SudokuPoint> anotherEmptyPoints = currentField.getAllEmptySudokuPoints();
+        anotherEmptyPoints.remove(pointWithMinAvailValues);
+        for (SudokuPoint point : anotherEmptyPoints) {
+            List<Integer> availableValuesForCurPoint = currentField.getAvailableValuesForPoint(point);
+            for (Integer currentValue : availableValuesForCurPoint) {
+                groupValueForAllAnotherPoints[currentValue - 1] = groupValueForAllAnotherPoints[currentValue - 1] + 1;
+            }
+        }
+        int[][] groupValueForAvailPointsOnly = new int[availableValuesForPoint.size()][2];
+        int index = 0;
+        for (Integer currentValue : availableValuesForPoint) {
+            groupValueForAvailPointsOnly[index][0] = currentValue;
+            groupValueForAvailPointsOnly[index++][1] = groupValueForAllAnotherPoints[currentValue - 1];
+        }
+        Arrays.sort(groupValueForAvailPointsOnly, (arr1, arr2) -> Integer.compare(arr1[1], arr2[1]));
+        if (groupValueForAvailPointsOnly[0][1] != 0) {
+            for (int[] currentValue : groupValueForAvailPointsOnly) {
+                result.add(currentValue[0]);
+            }
+        } else if (groupValueForAvailPointsOnly.length == 1 || (groupValueForAvailPointsOnly.length > 1 && groupValueForAvailPointsOnly[1][1] != 0)) {
+            result.add(groupValueForAvailPointsOnly[0][0]);
+        }
+        return result;
+    }
+
 }
