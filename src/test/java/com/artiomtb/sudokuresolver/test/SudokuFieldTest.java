@@ -84,6 +84,27 @@ public class SudokuFieldTest {
     }
 
     @Test
+    public void createEmptyStringSudokuField() throws SudokuException {
+        SudokuField field = new SudokuField("000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                assertEquals(0, field.getPoint(x + 1, y + 1).getValue());
+            }
+        }
+    }
+
+    @Test
+    public void createNonEmptyStringSudokuField() throws SudokuException {
+        String fieldString = "103456789456789103789103456034567891567891034891034567345678910678910345910345678";
+        SudokuField field = new SudokuField(fieldString);
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                assertEquals((int) Integer.valueOf(String.valueOf(fieldString.charAt(y * 9 + x))), field.getPoint(x + 1, y + 1).getValue());
+            }
+        }
+    }
+
+    @Test
     public void setPointTest() throws SudokuException {
         for (int currentX : correctPosX) {
             for (int currentY : correctPosY) {
@@ -120,7 +141,7 @@ public class SudokuFieldTest {
         assertFalse(field.checkFieldValidity());
         field = new SudokuField();
         field.setPoint(new SudokuPoint(1, 1, 1));
-        field.setPoint(new SudokuPoint(3, 3, 2));
+        field.setPoint(new SudokuPoint(3, 3, 0));
         field.setPoint(new SudokuPoint(3, 5, 1));
         assertTrue(field.checkFieldValidity());
     }
