@@ -141,7 +141,7 @@ public class SudokuFieldTest {
         assertFalse(field.checkFieldValidity());
         field = new SudokuField();
         field.setPoint(new SudokuPoint(1, 1, 1));
-        field.setPoint(new SudokuPoint(3, 3, 0));
+        field.setPoint(new SudokuPoint(3, 3, 2));
         field.setPoint(new SudokuPoint(3, 5, 1));
         assertTrue(field.checkFieldValidity());
     }
