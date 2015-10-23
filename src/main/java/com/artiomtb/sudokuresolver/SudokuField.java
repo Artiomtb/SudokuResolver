@@ -4,6 +4,7 @@ import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -42,6 +43,20 @@ public class SudokuField implements Cloneable {
             this.field[point.getPosX() - 1][point.getPosY() - 1] = point;
         }
         LOG.debug("Created: " + toString());
+    }
+
+    public SudokuField(String sudokuField) throws SudokuException {
+        if (sudokuField.length() != 81) {
+            throw new SudokuException("Size of string should be equals to 81 (now " + sudokuField.length() + ")");
+        }
+        try {
+            for (int i = 0; i < 81; i++) {
+                int currentValue = Integer.parseInt(String.valueOf(sudokuField.charAt(i)));
+                setPoint((i % 9) + 1, (i / 9) + 1, currentValue);
+            }
+        } catch (NumberFormatException e) {
+            throw new SudokuException("String should contain digits [1,9] only", e);
+        }
     }
 
     private SudokuPoint[][] getEmptyField() {
