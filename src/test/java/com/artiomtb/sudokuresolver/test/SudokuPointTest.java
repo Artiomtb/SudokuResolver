@@ -67,7 +67,6 @@ public class SudokuPointTest {
         clonedPoint.setValue(5);
         clonedPoint.setPosX(5);
         clonedPoint.setPosY(7);
-        System.out.println(point + " " + clonedPoint);
         assertNotEquals(point, clonedPoint);
     }
 
