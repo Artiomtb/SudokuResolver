@@ -4,7 +4,6 @@ import com.artiomtb.sudokuresolver.exceptions.SudokuException;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 
@@ -95,29 +94,29 @@ public class SudokuField implements Cloneable {
         return this.field[posX - 1][posY - 1];
     }
 
-    public boolean checkVerticalLine(int lineNum) throws SudokuException {
+    public boolean isVerticalLineValid(int lineNum) throws SudokuException {
         if (lineNum < 1 || lineNum > 9)
             throw new SudokuException("Line value should be in range [1,9] (now " + lineNum + ")");
-        return checkArrayToUnique(getPointsByVerticalLine(lineNum));
+        return isArrayUnique(getPointsByVerticalLine(lineNum));
     }
 
-    public boolean checkHorizontalLine(int lineNum) throws SudokuException {
+    public boolean isHorizontalLineValid(int lineNum) throws SudokuException {
         if (lineNum < 1 || lineNum > 9)
             throw new SudokuException("Line value should be in range [1,9] (now " + lineNum + ")");
-        return checkArrayToUnique(getPointsByHorizontalLine(lineNum));
+        return isArrayUnique(getPointsByHorizontalLine(lineNum));
     }
 
-    public boolean checkSquare(int squareNum) throws SudokuException {
+    public boolean isSquareValid(int squareNum) throws SudokuException {
         if (squareNum < 1 || squareNum > 9)
             throw new SudokuException("Square value should be in range [1,9] (now " + squareNum + ")");
-        return checkArrayToUnique(getPointsBySquareNum(squareNum));
+        return isArrayUnique(getPointsBySquareNum(squareNum));
     }
 
-    public boolean checkFieldValidity() {
+    public boolean isFieldValid() {
         boolean result = true;
         try {
             for (int i = 1; i <= 9; i++) {
-                if (!checkVerticalLine(i) || !checkHorizontalLine(i) || !checkSquare(i)) {
+                if (!isVerticalLineValid(i) || !isHorizontalLineValid(i) || !isSquareValid(i)) {
                     result = false;
                     break;
                 }
@@ -259,7 +258,7 @@ public class SudokuField implements Cloneable {
     }
 
     public boolean isSolved() {
-        boolean result = checkFieldValidity();
+        boolean result = isFieldValid();
         if (result) {
             checking:
             for (int y = 0; y < 9; y++) {
@@ -303,7 +302,7 @@ public class SudokuField implements Cloneable {
         return nonAvailableValues;
     }
 
-    private boolean checkArrayToUnique(SudokuPoint[] array) {
+    private boolean isArrayUnique(SudokuPoint[] array) {
         StringBuilder sb = new StringBuilder();
         for (SudokuPoint point : array) {
             sb.append(point.getValue() + " ");

@@ -19,7 +19,7 @@ public class SudokuResolver {
 
     public SudokuResolver(SudokuField field) throws SudokuException {
         this.field = field;
-        if (!field.checkFieldValidity()) {
+        if (!field.isFieldValid()) {
             throw new SudokuException("This field is not correct");
         } else {
             resolveSudoku();
@@ -29,7 +29,7 @@ public class SudokuResolver {
     public SudokuResolver(SudokuField field, int limit) throws SudokuException {
         this.field = field;
         answerLimit = limit;
-        if (!field.checkFieldValidity()) {
+        if (!field.isFieldValid()) {
             throw new SudokuException("This field is not correct");
         } else {
             resolveSudoku();

@@ -125,29 +125,29 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkValidityTest() throws SudokuException {
+    public void isFieldValidTest() throws SudokuException {
         SudokuField field = new SudokuField();
-        assertTrue(field.checkFieldValidity());
+        assertTrue(field.isFieldValid());
         field.setPoint(new SudokuPoint(1, 1, 1));
         field.setPoint(new SudokuPoint(4, 1, 1));
-        assertFalse(field.checkFieldValidity());
+        assertFalse(field.isFieldValid());
         field = new SudokuField();
         field.setPoint(new SudokuPoint(1, 1, 1));
         field.setPoint(new SudokuPoint(1, 9, 1));
-        assertFalse(field.checkFieldValidity());
+        assertFalse(field.isFieldValid());
         field = new SudokuField();
         field.setPoint(new SudokuPoint(1, 1, 1));
         field.setPoint(new SudokuPoint(3, 3, 1));
-        assertFalse(field.checkFieldValidity());
+        assertFalse(field.isFieldValid());
         field = new SudokuField();
         field.setPoint(new SudokuPoint(1, 1, 1));
         field.setPoint(new SudokuPoint(3, 3, 2));
         field.setPoint(new SudokuPoint(3, 5, 1));
-        assertTrue(field.checkFieldValidity());
+        assertTrue(field.isFieldValid());
     }
 
     @Test
-    public void getAllEmptySudokoPointsTest() throws SudokuException {
+    public void getAllEmptySudokuPointsTest() throws SudokuException {
         SudokuField field = new SudokuField();
         List<SudokuPoint> emptyPointsList;
         List<SudokuPoint> expectedPointsList = new ArrayList<>();
@@ -188,42 +188,42 @@ public class SudokuFieldTest {
     }
 
     @Test
-    public void checkHorizontalValidityTest() throws SudokuException {
+    public void isHorizontalLineValidTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
-            assertTrue(field.checkHorizontalLine(currentLine));
+            assertTrue(field.isHorizontalLineValid(currentLine));
             for (int i = 0; i < 9; i++) {
                 field.setPoint(i + 1, currentLine, i + 1);
             }
-            assertTrue(field.checkHorizontalLine(currentLine));
+            assertTrue(field.isHorizontalLineValid(currentLine));
             field.setPoint(5, currentLine, 4);
-            assertFalse(field.checkHorizontalLine(currentLine));
+            assertFalse(field.isHorizontalLineValid(currentLine));
             field.setPoint(5, currentLine, 0);
-            assertTrue(field.checkHorizontalLine(currentLine));
+            assertTrue(field.isHorizontalLineValid(currentLine));
         }
     }
 
     @Test
-    public void checkVerticalValidityTest() throws SudokuException {
+    public void isVerticalLineValidTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentLine = 1; currentLine <= 9; currentLine++) {
-            assertTrue(field.checkVerticalLine(currentLine));
+            assertTrue(field.isVerticalLineValid(currentLine));
             for (int i = 0; i < 9; i++) {
                 field.setPoint(currentLine, i + 1, i + 1);
             }
-            assertTrue(field.checkVerticalLine(currentLine));
+            assertTrue(field.isVerticalLineValid(currentLine));
             field.setPoint(currentLine, 5, 4);
-            assertFalse(field.checkVerticalLine(currentLine));
+            assertFalse(field.isVerticalLineValid(currentLine));
             field.setPoint(currentLine, 5, 0);
-            assertTrue(field.checkVerticalLine(currentLine));
+            assertTrue(field.isVerticalLineValid(currentLine));
         }
     }
 
     @Test
-    public void checkSquareValidityTest() throws SudokuException {
+    public void isSquareValidTest() throws SudokuException {
         SudokuField field = new SudokuField();
         for (int currentSquare = 1; currentSquare <= 9; currentSquare++) {
-            assertTrue(field.checkSquare(currentSquare));
+            assertTrue(field.isSquareValid(currentSquare));
             int currentStartX;
             int currentStartY;
             int squareMod = currentSquare % 3;
@@ -247,9 +247,9 @@ public class SudokuFieldTest {
                     field.setPoint(currentX + 1, currentY + 1, currentValue++);
                 }
             }
-            assertTrue(field.checkSquare(currentSquare));
+            assertTrue(field.isSquareValid(currentSquare));
             field.setPoint(currentStartX + 1, currentStartY + 2, 5);
-            assertFalse(field.checkSquare(currentSquare));
+            assertFalse(field.isSquareValid(currentSquare));
         }
     }
 
@@ -406,73 +406,73 @@ public class SudokuFieldTest {
     @Test(expected = SudokuException.class)
     public void checkIncorrectVerticalLineLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkVerticalLine(0);
+        field.isVerticalLineValid(0);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectVerticalLineLess() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkVerticalLine(-100);
+        field.isVerticalLineValid(-100);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectVerticalLineMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkVerticalLine(10);
+        field.isVerticalLineValid(10);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectVerticalLineMore() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkVerticalLine(100);
+        field.isVerticalLineValid(100);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectHorizontalLineLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkHorizontalLine(0);
+        field.isHorizontalLineValid(0);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectHorizontalLineLess() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkHorizontalLine(-100);
+        field.isHorizontalLineValid(-100);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectHorizontalLineMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkHorizontalLine(10);
+        field.isHorizontalLineValid(10);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectHorizontalLineMore() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkHorizontalLine(100);
+        field.isHorizontalLineValid(100);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectSquareLessBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkSquare(0);
+        field.isSquareValid(0);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectSquareLess() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkSquare(-100);
+        field.isSquareValid(-100);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectSquareMoreBorder() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkSquare(10);
+        field.isSquareValid(10);
     }
 
     @Test(expected = SudokuException.class)
     public void checkIncorrectSquareMore() throws SudokuException {
         SudokuField field = new SudokuField();
-        field.checkSquare(100);
+        field.isSquareValid(100);
     }
 
 
