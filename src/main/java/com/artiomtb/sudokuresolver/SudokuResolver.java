@@ -43,7 +43,7 @@ public class SudokuResolver {
             answers.add(field);
         } else {
             tryToSetValue(field);
-            LOG.info("Founded " + getResolvedSudokuCount() + " resolutions for this field");
+            LOG.info("Found " + getResolvedSudokuCount() + " resolutions for this field");
         }
     }
 
